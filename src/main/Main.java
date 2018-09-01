@@ -1,12 +1,15 @@
 package main;
 
-import java.io.IOException;
+import contexto.Contexto;
+import contexto.Evento;
+import presentacion.despachadorVista.DespachadorVista;
 
 public class Main
 {
 
     public static void main(String[] args)
     {
-        System.out.println("Hello, World!");
+        DespachadorVista despachadorVista = DespachadorVista.getInstancia();
+        despachadorVista.despachar(new Contexto(Evento.Empezar, null));
     }
 }
