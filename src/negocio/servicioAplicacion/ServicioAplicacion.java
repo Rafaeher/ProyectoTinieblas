@@ -7,10 +7,16 @@ import utils.Pair;
 
 public class ServicioAplicacion
 {
-    public Contexto generaVampiroAleatorio(Pair<String, Integer> par)
+    /**
+     *
+     * @param cronica: el nombre de la crónica
+     * @param puntosGratuitos: el número de puntos gratuitos que tendrá el vampiro
+     * @return contexto que indica que se ha generado un vampiro y contiene el vampiro creado
+     */
+    public Contexto generaVampiroAleatorio(String cronica, int puntosGratuitos)
     {
         Vampiro vampiro = new Vampiro();
-        vampiro.aleatorizar(par.first, par.second);
+        vampiro.aleatorizar(cronica, puntosGratuitos);
 
         return new Contexto(Evento.VampiroGenerado, vampiro);
     }

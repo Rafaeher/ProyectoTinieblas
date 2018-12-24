@@ -357,25 +357,26 @@ public class Vampiro extends Ficha
     {
         while (puntosGratuitos > 0)
         {
-            int auxAleatorio;
+
+            int rasgoSelecionado;
 
             switch(puntosGratuitos)
             {
                 case 6:
                 case 5:
-                    auxAleatorio = random.nextInt(10); break;
+                    rasgoSelecionado = random.nextInt(10); break;
                 case 4:
                 case 3:
                 case 2:
-                    auxAleatorio = random.nextInt(7); break;
+                    rasgoSelecionado = random.nextInt(7); break;
                 case 1:
-                    auxAleatorio = random.nextInt(2); break;
+                    rasgoSelecionado = random.nextInt(2); break;
 
                 default:
-                    auxAleatorio = random.nextInt(11); break;
+                    rasgoSelecionado = random.nextInt(11); break;
             }
 
-            switch (auxAleatorio)
+            switch (rasgoSelecionado)
             {
                 case 0:
                     distribuirCirculos(trasfondos, 1, 5, random);
@@ -386,18 +387,22 @@ public class Vampiro extends Ficha
                     puntosGratuitos -= 1;
                     break;
                 case 2:
-                    distribuirCirculos(talentos, 1, 5, random);
+                    puntuacionSenda += 1;
                     puntosGratuitos -= 2;
                     break;
                 case 3:
-                    distribuirCirculos(tecnicas, 1, 5, random);
+                    distribuirCirculos(talentos, 1, 5, random);
                     puntosGratuitos -= 2;
                     break;
                 case 4:
-                    distribuirCirculos(conocimientos, 1, 5, random);
+                    distribuirCirculos(tecnicas, 1, 5, random);
                     puntosGratuitos -= 2;
                     break;
                 case 5:
+                    distribuirCirculos(conocimientos, 1, 5, random);
+                    puntosGratuitos -= 2;
+                    break;
+                case 6:
                     TreeMap<Virtud, Integer> virtudes = new TreeMap<>();
 
                     virtudes.put(senda.getVirtudSuperior(), virtudSuperior);
@@ -406,14 +411,19 @@ public class Vampiro extends Ficha
 
                     distribuirCirculos(virtudes, 1, 5, random);
 
+                    if (virtudes.get(Virtud.CORAJE) > coraje) // Si se ha incrementado el coraje
+                    {
+                        fuerzaVoluntad += 1;
+                    }
+                    else // Si no se ha incrementado el coraje
+                    {
+                        puntuacionSenda += 1;
+                    }
+
                     virtudSuperior = virtudes.get(senda.getVirtudSuperior());
                     virtudIntermedia = virtudes.get(senda.getVirtudIntermedia());
                     coraje = virtudes.get(Virtud.CORAJE);
 
-                    puntosGratuitos -= 2;
-                    break;
-                case 6:
-                    puntuacionSenda += 1;
                     puntosGratuitos -= 2;
                     break;
                 case 7:
@@ -616,41 +626,41 @@ public class Vampiro extends Ficha
                 .append("|||   ATRIBUTOS   |||").append(ls)
                 .append(ls)
                 .append(ls)
-                .append("-FISICOS-").append(ls)
+                .append("| FISICOS |").append(ls)
                 .append(getlistaRasgos(fisicos))
                 .append(ls)
-                .append("-SOCIALES-").append(ls)
+                .append("| SOCIALES |").append(ls)
                 .append(getlistaRasgos(sociales))
                 .append(ls)
-                .append("-MENTALES-").append(ls)
+                .append("| MENTALES |").append(ls)
                 .append(getlistaRasgos(mentales))
                 .append(ls)
                 .append(ls)
                 .append("<<<   HABILIDADES   >>>").append(ls)
                 .append(ls)
                 .append(ls)
-                .append("<TALENTOS>").append(ls)
+                .append("< TALENTOS >").append(ls)
                 .append(getlistaRasgos(talentos))
                 .append(ls)
-                .append("<TÉCNICAS>").append(ls)
+                .append("< TÉCNICAS >").append(ls)
                 .append(getlistaRasgos(tecnicas))
                 .append(ls)
-                .append("<CONOCIMIENTOS>").append(ls)
+                .append("< CONOCIMIENTOS >").append(ls)
                 .append(getlistaRasgos(conocimientos))
                 .append(ls)
                 .append(ls)
                 .append(ls)
                 .append(ls)
                 .append(ls)
-                .append("·DISCIPLINAS·").append(ls)
+                .append("···   DISCIPLINAS   ···").append(ls)
                 .append(getlistaRasgos(disciplinas))
                 .append(ls)
                 .append(ls)
-                .append("·TRASFONDOS·").append(ls)
+                .append("· TRASFONDOS ·").append(ls)
                 .append(getlistaRasgos(trasfondos))
                 .append(ls)
                 .append(ls)
-                .append("·VIRTUDES·").append(ls)
+                .append("· VIRTUDES ·").append(ls)
                 .append(senda.getVirtudSuperior().toString(), 0, 1)
                     .append(senda.getVirtudSuperior().toString().toLowerCase().substring(1)).append(": ")
                     .append(getCirculos(virtudSuperior)).append(ls)
@@ -660,19 +670,20 @@ public class Vampiro extends Ficha
                 .append("Coraje: ").append(getCirculos(coraje)).append(ls)
                 .append(ls)
                 .append(ls)
-                .append("·").append(senda.getNombre()).append("·").append(ls)
+                .append("· ").append(senda.getNombre().toUpperCase()).append(" ·").append(ls)
                 .append(getCirculos(puntuacionSenda)).append(ls)
                 .append("Porte (").append(senda.getPorte().toString(), 0, 1)
                     .append(senda.getPorte().toString().toLowerCase().substring(1)).append("): ").append(porte)
                     .append(ls)
                 .append(ls)
                 .append(ls)
-                .append("·FUERZA DE VOLUNTAD·").append(ls)
+                .append("· FUERZA DE VOLUNTAD ·").append(ls)
                 .append(getCirculos(fuerzaVoluntad)).append(ls)
                 .append(ls)
                 .append(ls)
-                .append("·DEBILIDAD·").append(ls)
+                .append("· DEBILIDAD ·").append(ls)
                 .append(debilidad).append(ls);
+
         return strBuilder.toString();
     }
 }

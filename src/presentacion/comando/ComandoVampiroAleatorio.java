@@ -17,7 +17,7 @@ public class ComandoVampiroAleatorio implements Comando
     {
         FactoriaSA factoriaSA = FactoriaSA.getInstancia();
         ServicioAplicacion sa = factoriaSA.getSA();
-        Contexto contexto = sa.generaVampiroAleatorio(new Pair<>("Crónica", 15));
+        Contexto contexto = sa.generaVampiroAleatorio("Crónica", 15);
         Contexto contextoRetorno;
 
         switch(contexto.getEvento())
