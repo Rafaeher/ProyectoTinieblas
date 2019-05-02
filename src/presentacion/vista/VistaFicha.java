@@ -118,7 +118,7 @@ public class VistaFicha extends JFrame implements Vista
     {
         switch (contexto.getEvento())
         {
-            case VampiroGenerado: areaTexto.setText(((Vampiro) contexto.getInfo()).toString()); break;
+            case VampiroGenerado: areaTexto.setText(contexto.getInfo().toString()); break;
             default: break;
         }
     }
